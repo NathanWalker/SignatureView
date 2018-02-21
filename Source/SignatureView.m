@@ -73,6 +73,10 @@
     self.foregroundLineWidth = width;
 }
 
+- (void)enableSmoothing:(BOOL)enabled {
+    self.smoothing = enabled;
+}
+
 - (void)clear {
     [self clearWithColor:[UIColor whiteColor]];
     [self clearWithColor:[UIColor clearColor]];
@@ -182,10 +186,14 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    NSArray *generalizedPoints = [self _douglasPeucker:self.drawnPoints epsilon:2];
-    NSArray *splinePoints = [self _catmullRomSpline:generalizedPoints segments:4];
-    
-    self.image = [self _drawLineWithPoints:splinePoints image:self.tempImage];
+    if (self.smoothing) {
+        NSArray *generalizedPoints = [self _douglasPeucker:self.drawnPoints epsilon:2];
+        NSArray *splinePoints = [self _catmullRomSpline:generalizedPoints segments:4];
+        
+        self.image = [self _drawLineWithPoints:splinePoints image:self.tempImage];
+    } else {
+        self.image = [self _drawLineWithPoints:self.drawnPoints image:self.tempImage];
+    }
     
     self.drawnPoints = nil;
     self.tempImage = nil;

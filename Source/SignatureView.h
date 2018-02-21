@@ -15,11 +15,13 @@
 
 @property (nonatomic, assign) CGFloat foregroundLineWidth;
 @property (nonatomic, assign) CGFloat backgroundLineWidth;
+@property (nonatomic, assign) BOOL smoothing;
 
 @property (nonatomic, strong) UILongPressGestureRecognizer *recognizer;
 
 - (void)setLineColor:(UIColor *)color;
 - (void)setLineWidth:(CGFloat)width;
+- (void)enableSmoothing:(BOOL)enabled;
 
 - (void)clear;
 - (void)clearWithColor:(UIColor *)color;
